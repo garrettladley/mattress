@@ -17,7 +17,6 @@ package mattress
 import (
 	"bytes"
 	"encoding/gob"
-	"fmt"
 	"runtime"
 
 	"github.com/awnumar/memguard"
@@ -92,19 +91,4 @@ func (s *Secret[T]) Expose() T {
 // data is not accidentally exposed via logging or other string handling mechanisms.
 func (s *Secret[T]) String() string {
 	return "[SECRET]"
-}
-
-func foo() {
-	type User struct {
-		Username string
-		Password Secret[string]
-	}
-
-	pass, err := NewSecret("foo")
-	user := User{
-		Username: "admin",
-		Password: *pass,
-	}
-
-	fmt.Println(user.Password.Expose())
 }
