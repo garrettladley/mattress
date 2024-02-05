@@ -37,5 +37,7 @@ user := User{
     Password: *password,
 }
 
-fmt.Println(user.Password.Expose())
+fmt.Println(user.Password) // <- memory address
+fmt.Println(user.Password.String()) // <- "[SECRET]"
+fmt.Println(user.Password.Expose()) // <- "password"
 ```

@@ -89,6 +89,7 @@ func (s *Secret[T]) Expose() T {
 
 // String provides a safe string representation of the Secret, ensuring that sensitive
 // data is not accidentally exposed via logging or other string handling mechanisms.
+
 func (s *Secret[T]) String() string {
 	return "[SECRET]"
 }
