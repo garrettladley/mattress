@@ -6,8 +6,6 @@
 
 <h2 align="center">Like storing your secrets under your mattress, but better</h2>
 
-<br />
-
 A Go port of Rust's [secrecy](https://github.com/iqlusioninc/crates/tree/main/secrecy) crate.
 
 > [!NOTE]
