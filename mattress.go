@@ -17,6 +17,7 @@ package mattress
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
 	"runtime"
 
 	"github.com/awnumar/memguard"
@@ -38,7 +39,7 @@ type Secret[T any] struct {
 // NewSecret initializes a new Secret with the provided data. It serializes the data using
 // encoding/gob and stores it securely using memguard. This function returns an error if
 // encoding the data fails or if there is an issue securing the data in memory.
-func New[T any](data T) (*Secret[T], error) {
+func NewSecret[T any](data T) (*Secret[T], error) {
 	var buf bytes.Buffer
 
 	enc := gob.NewEncoder(&buf)
@@ -91,4 +92,19 @@ func (s *Secret[T]) Expose() T {
 // data is not accidentally exposed via logging or other string handling mechanisms.
 func (s *Secret[T]) String() string {
 	return "[SECRET]"
+}
+
+func foo() {
+	type User struct {
+		Username string
+		Password Secret[string]
+	}
+
+	pass, err := NewSecret("foo")
+	user := User{
+		Username: "admin",
+		Password: *pass,
+	}
+
+	fmt.Println(user.Password.Expose())
 }
