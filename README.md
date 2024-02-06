@@ -10,34 +10,36 @@ A Go port of Rust's [secrecy](https://github.com/iqlusioninc/crates/tree/main/se
 
 > [!NOTE]
 > Disclaimer:
-> 
-> While this package provides a higher degree of security for sensitive data, it's important to understand that no method is foolproof. Users should combine this with other security best practices to ensure comprehensive protection.
+>
+> While this package offers enhanced security for sensitive data, it is important to acknowledge that no method is entirely foolproof. Users are encouraged to employ this package in conjunction with other security best practices for more comprehensive protection.
 >
 > Warning:
-> 
-> This package uses runtime finalizers to ensure cleanup of sensitive data. Because Go's runtime does not guarantee when finalizers will run, it's possible for sensitive data to remain in memory longer than intended. Use with caution and ensure you understand the implications.
+>
+> This package utilizes runtime finalizers to ensure cleanup of sensitive data. Due to the nature of Go's runtime, which does not guarantee immediate execution of finalizers, sensitive data may reside in memory longer than anticipated. Users should proceed with caution and ensure they fully comprehend the potential implications.
 
 # Example
 
 ```go
-
 import m "github.com/garrettladley/mattress"
 
 type User struct {
-    Username string
-    Password Secret[string]
+  Username string
+  Password m.Secret[string]
 }
 
-password, err := m.New("password")
+func main() {
+  password, err := m.NewSecret("password")
+  if err != nil {
+    // handle error
+  }
 
-// handle err
-
-user := User{
+  user := User{
     Username: "username",
     Password: *password,
-}
+  }
 
-fmt.Println(user.Password) // <- memory address
-fmt.Println(user.Password.String()) // <- "[SECRET]"
-fmt.Println(user.Password.Expose()) // <- "password"
+  fmt.Println(user.Password) // Output: memory address
+  fmt.Println(user.Password.String()) // Output: "[SECRET]"
+  fmt.Println(user.Password.Expose()) // Output: "password"
+}
 ```

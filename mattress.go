@@ -1,17 +1,42 @@
-// Package mattress provides a secure way to handle sensitive data within Go applications.
-// It uses the memguard library to create encrypted enclaves for sensitive information,
-// ensuring that data is protected both in memory and during runtime. The package is designed
-// to help prevent accidental leaks of sensitive data through improper memory handling or
+// mattress provides a secure way to handle sensitive data within Go applications.
+// It leverages the memguard library to create encrypted enclaves for sensitive information,
+// ensuring that data is protected both in memory and during runtime. This package is designed
+// to mitigate accidental leaks of sensitive data through improper memory handling or
 // exposure via runtime panics.
 //
-// Note: While this package provides a higher degree of security for sensitive data, it's
-// important to understand that no method is foolproof. Users should combine this with other
-// security best practices to ensure comprehensive protection.
+// Note: While this package offers enhanced security for sensitive data, it is important to
+// acknowledge that no method is entirely foolproof. Users are encouraged to employ this
+// package in conjunction with other security best practices for more comprehensive protection.
 //
-// Warning: This package uses runtime finalizers to ensure cleanup of sensitive data. Because
-// Go's runtime does not guarantee when finalizers will run, it's possible for sensitive data
-// to remain in memory longer than intended. Use with caution and ensure you understand the
-// implications.
+// Warning: This package utilizes runtime finalizers to ensure cleanup of sensitive data. Due
+// to the nature of Go's runtime, which does not guarantee immediate execution of finalizers,
+// sensitive data may reside in memory longer than anticipated. Users should proceed with
+// caution and ensure they fully comprehend the potential implications.
+//
+// Example Usage:
+//
+//	import m "github.com/garrettladley/mattress"
+//
+//	type User struct {
+//	  Username string
+//	  Password m.Secret[string]
+//	}
+//
+//	func main() {
+//	  password, err := m.NewSecret("password")
+//	  if err != nil {
+//	    // handle error
+//	  }
+//
+//	  user := User{
+//	    Username: "username",
+//	    Password: *password,
+//	  }
+//
+//	  fmt.Println(user.Password) // Output: memory address
+//	  fmt.Println(user.Password.String()) // Output: "[SECRET]"
+//	  fmt.Println(user.Password.Expose()) // Output: "password"
+//	}
 package mattress
 
 import (
@@ -32,7 +57,7 @@ func init() {
 // The data is stored within a memguard.LockedBuffer, providing encryption at rest
 // and secure memory handling.
 type Secret[T any] struct {
-	buffer *memguard.LockedBuffer
+	buffer *memguard.LockedBuffer // buffer holds the encrypted data
 }
 
 // NewSecret initializes a new Secret with the provided data. It serializes the data using
