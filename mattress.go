@@ -43,6 +43,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"runtime"
+	"sync"
 
 	"github.com/awnumar/memguard"
 )
@@ -58,6 +59,7 @@ func init() {
 // and secure memory handling.
 type Secret[T any] struct {
 	buffer *memguard.LockedBuffer // buffer holds the encrypted data
+	mutex  sync.Mutex             // synchronize access to the buffer
 }
 
 // NewSecret initializes a new Secret with the provided data. It serializes the data using
@@ -105,6 +107,9 @@ func (s *Secret[T]) zero() {
 // exposes sensitive data in memory. Ensure that the returned data is handled securely
 // and is wiped from memory when no longer needed.
 func (s *Secret[T]) Expose() T {
+	s.mutex.Lock()         // Lock before accessing the buffer
+	defer s.mutex.Unlock() // Ensure the mutex is unlocked when the method returns
+
 	var data T
 
 	gob.NewDecoder(bytes.NewReader(s.buffer.Bytes())).Decode(&data)
