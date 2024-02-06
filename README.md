@@ -39,7 +39,7 @@ import m "github.com/garrettladley/mattress"
 
 type User struct {
   Username string
-  Password m.Secret[string]
+  Password *m.Secret[string]
 }
 
 func main() {
@@ -50,7 +50,7 @@ func main() {
 
   user := User{
     Username: "username",
-    Password: *password,
+    Password: password,
   }
 
   fmt.Println(user.Password) // Output: memory address
