@@ -48,6 +48,9 @@ import (
 	"github.com/awnumar/memguard"
 )
 
+// init is called on package load and sets up a signal handler to catch interrupts.
+// This ensures that sensitive data is securely wiped from memory if the application
+// is interrupted.
 func init() {
 	// CatchInterrupt ensures that if the application is interrupted, any sensitive data
 	// handled by memguard will be securely wiped from memory before exit.
@@ -119,7 +122,6 @@ func (s *Secret[T]) Expose() T {
 
 // String provides a safe string representation of the Secret, ensuring that sensitive
 // data is not accidentally exposed via logging or other string handling mechanisms.
-
 func (s *Secret[T]) String() string {
 	return "[SECRET]"
 }
