@@ -11,9 +11,9 @@
     <img src="https://goreportcard.com/badge/github.com/garrettladley/mattress"
       alt="Mattress Go Report" />
   </a>
-  <a href="https://www.gnu.org/licenses/gpl-3.0">
-    <img src="https://img.shields.io/badge/License-GPLv3-blue.svg"
-      alt="GNU GPL v3.0 License" />
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg"
+      alt="MIT License" />
   </a>
   <a href="https://pkg.go.dev/github.com/garrettladley/mattress#section-documentation">
     <img src="https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white"
