@@ -23,8 +23,8 @@
 
 A Go port of Rust's [secrecy](https://github.com/iqlusioninc/crates/tree/main/secrecy) crate.
 
-> [!NOTE]
-> Disclaimer:
+> [!Warning]
+> **Disclaimer:**
 >
 > While this package offers enhanced security for sensitive data, it is important to acknowledge that no method is entirely foolproof. Users are encouraged to employ this package in conjunction with other security best practices for more comprehensive protection.
 >
