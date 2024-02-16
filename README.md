@@ -28,7 +28,6 @@ A Go port of Rust's [secrecy](https://github.com/iqlusioninc/crates/tree/main/se
 >
 > While this package offers enhanced security for sensitive data, it is important to acknowledge that no method is entirely foolproof. Users are encouraged to employ this package in conjunction with other security best practices for more comprehensive protection.
 >
-> Warning:
 >
 > This package utilizes runtime finalizers to ensure cleanup of sensitive data. Due to the nature of Go's runtime, which does not guarantee immediate execution of finalizers, sensitive data may reside in memory longer than anticipated. Users should proceed with caution and ensure they fully comprehend the potential implications.
 
